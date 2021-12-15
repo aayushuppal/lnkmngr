@@ -7,6 +7,7 @@ from utils.db import (
     add_new_table,
     add_new_entry,
     del_entry,
+    drop_table,
 )
 from utils.tree import get_links_json_as_list
 from utils.consts import CATEGORY_TYPE, LINK_TYPE
@@ -29,6 +30,18 @@ def add_link_table_route():
     return redirect("/")
 
 
+@app.route("/drop_link_table_route/", methods=["POST"])
+def drop_link_table_route():
+    rj = request.get_json()
+    table_names = rj["table_names"]
+    for table_name in table_names:
+        drop_table(table_name)
+
+    return app.response_class(
+        response=json.dumps({}), status=200, mimetype="application/json"
+    )
+
+
 @app.route("/<table_name>/", methods=["GET"])
 def render_list_page_route(table_name):
     title = f"lnkmngr - {under_str_frmt(table_name)}"
@@ -47,7 +60,7 @@ def render_list_page_route(table_name):
 @app.route("/add_new_entry_route/", methods=["POST"])
 def add_new_entry_route():
     rj = request.get_json()
-    table_name = request.get_json()["table_name"]
+    table_name = rj["table_name"]
     new_entry_cat_id = None
 
     if rj["cat_1_id"] != "":

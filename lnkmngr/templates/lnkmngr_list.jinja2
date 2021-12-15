@@ -33,25 +33,54 @@
 
     <form action="{{ url_for('add_link_table_route') }}" method="POST">
         <input type="text" name="new_table_name"></input>
-        &nbsp;
+        &nbsp;|&nbsp;
         <button type="submit" name="action">
             <i class="fas fa-plus-square"></i>
+        </button>
+        &nbsp;|&nbsp;
+        <button id="del_link_table">
+            <i class="fas fa-trash-alt"></i>
         </button>
     </form>
     <br/>
 
      {% if link_tables %}
+        <div id="link_tables">
         <ul>
         {% for lp in link_tables %}
             <li>
+                <input type="checkbox" id={{ lp[0] }} value={{ lp[0] }} />
+                &nbsp;
                 <a href={{ lp[0] }}>{{ lp[1] }}</a>
             </li>
         {% endfor %}
         </ul>
+        </div>
     {% endif %}
     <br/><br/>
 
     <script>
+        $('#del_link_table').on('click', function (e) {
+            e.preventDefault();
+            var tl = $("#link_tables").find("input");
+            tl = Array.from(tl);
+            var del_tables_list = []
+            tl.forEach(t => {
+                if (t.checked == true) {
+                    del_tables_list.push(t.value);
+                }
+            });
+
+            $.ajax("/drop_link_table_route/", {
+                data: JSON.stringify({
+                    "table_names": del_tables_list,
+                }),
+                contentType: 'application/json',
+                type: 'POST',
+            }).done(function (response) {
+                location.reload(true);
+            });
+        });
     </script>
 </body>
 

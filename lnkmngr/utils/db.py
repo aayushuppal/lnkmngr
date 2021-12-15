@@ -27,6 +27,16 @@ def add_new_table(table_name):
     )
 
 
+def drop_table(table_name):
+    table_name = table_name.strip()
+    assert len(table_name.split(" ")) == 1
+    cursor.execute(
+        f"""
+        DROP TABLE IF EXISTS {table_name}
+        """
+    )
+
+
 def get_all_link_tables():
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
     return [(x[0], under_str_frmt(x[0])) for x in cursor.fetchall()]
