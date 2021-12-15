@@ -16,8 +16,8 @@ genexew:
 genmac:
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
 	cd lnkmngr; \
-	../.venv/Scripts/pyinstaller --windowed -F \
-	--add-data "templates;templates" --add-data "static;static" \
+	../.venv/bin/pyinstaller --windowed -F \
+	--add-data "templates:templates" --add-data "static:static" \
 	--runtime-tmpdir ./ app.py
 
 clean:
