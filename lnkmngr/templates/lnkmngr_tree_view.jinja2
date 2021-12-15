@@ -79,6 +79,17 @@
                     }
                 },
                 "plugins": ["themes", "json_data", "ui", "types", "search", "sort"],
+                'sort' : function(a, b) {
+                    var node_a = this.get_node(a);
+                    var node_b = this.get_node(b);
+                    if (node_a.type == node_b.type) {
+                        nat = node_a.text.toLowerCase();
+                        nbt = node_b.text.toLowerCase();
+                        return (nat < nbt) ? -1 : 1;
+                    } else {
+                        return (node_a.type == "link") ? -1 : 1;
+                    }
+                },
                 'search': {
                     'case_insensitive': true,
                     'show_only_matches' : true,
