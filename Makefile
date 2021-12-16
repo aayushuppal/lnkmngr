@@ -13,6 +13,13 @@ genexew:
 	--add-data "templates;templates" --add-data "static;static" \
 	--runtime-tmpdir ./ app.py
 
+genexew2:
+	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
+	cd lnkmngr; \
+	../.venv/Scripts/pyinstaller -F \
+	--add-data "templates;templates" --add-data "static;static" \
+	--runtime-tmpdir ./ app.py
+
 genmac:
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
 	cd lnkmngr; \
