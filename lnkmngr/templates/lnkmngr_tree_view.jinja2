@@ -65,7 +65,8 @@
         function createJSTree(links_data_json) {
             $('#jstree').jstree({
                 'core': {
-                    'data': links_data_json
+                    'check_callback': true,
+                    'data': links_data_json,
                 },
                 "types": {
                     "category": {
@@ -78,7 +79,7 @@
                         "icon": "fas fa-folder"
                     }
                 },
-                "plugins": ["themes", "json_data", "ui", "types", "search", "sort"],
+                "plugins": ["themes", "json_data", "ui", "types", "search", "sort", "dnd"],
                 'sort' : function(a, b) {
                     var node_a = this.get_node(a);
                     var node_b = this.get_node(b);

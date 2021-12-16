@@ -9,7 +9,7 @@ from utils.db import (
     del_entry,
     drop_table,
 )
-from utils.tree import get_links_json_as_list
+from utils.tree import get_links_json_as_map
 from utils.consts import CATEGORY_TYPE, LINK_TYPE
 import json
 
@@ -45,13 +45,13 @@ def drop_link_table_route():
 @app.route("/<table_name>/", methods=["GET"])
 def render_list_page_route(table_name):
     title = f"lnkmngr - {under_str_frmt(table_name)}"
-    links_json = get_links_json_as_list(table_name)
+    links_json_map = get_links_json_as_map(table_name)
     all_cats, cat_map = get_table_categories(table_name)
     return render_template(
         "lnkmngr_tree_view.jinja2",
         title=title,
         table_name=table_name,
-        links_json=links_json,
+        links_json=[v for _, v in links_json_map.items()],
         all_cats=all_cats,
         cat_map=cat_map,
     )
