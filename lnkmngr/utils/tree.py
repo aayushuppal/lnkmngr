@@ -1,4 +1,4 @@
-from utils.db import read_table
+from utils.db import read_table, update_entry_parent
 
 
 def get_links_json_as_map(table_name):
@@ -26,3 +26,19 @@ def get_links_json_as_map(table_name):
                 }
             node_map[str(id)] = node
     return node_map
+
+
+def reorder_tree(table_name, new_tree_node_list):
+    old_tree_node_map = get_links_json_as_map(table_name)
+    for node in new_tree_node_list:
+        id = node["id"]
+        new_parent_id = None if (node["parent"] == "#") else int(node["parent"])
+        old_parent_id = (
+            None
+            if (old_tree_node_map[id]["parent"] == "#")
+            else int(old_tree_node_map[id]["parent"])
+        )
+        id = int(id)
+
+        if new_parent_id != old_parent_id:
+            update_entry_parent(table_name, id, new_parent_id)

@@ -9,7 +9,7 @@ from utils.db import (
     del_entry,
     drop_table,
 )
-from utils.tree import get_links_json_as_map
+from utils.tree import get_links_json_as_map, reorder_tree
 from utils.consts import CATEGORY_TYPE, LINK_TYPE
 import json
 
@@ -115,6 +115,18 @@ def del_entries_route():
     table_name = request.get_json()["table_name"]
     for id in request.get_json()["ids"]:
         del_entry(table_name, int(id))
+
+    return app.response_class(
+        response=json.dumps({}), status=200, mimetype="application/json"
+    )
+
+
+@app.route("/reorder_tree_route/", methods=["POST"])
+def reorder_tree_route():
+    rj = request.get_json()
+    table_name = rj["table_name"]
+    new_tree_nodes = rj["new_tree_json"]
+    reorder_tree(table_name, new_tree_nodes)
 
     return app.response_class(
         response=json.dumps({}), status=200, mimetype="application/json"

@@ -54,6 +54,10 @@
     <button id="del">
         <i id="del_btn" class="far fa-trash-alt"></i>
     </button>
+    &nbsp;|&nbsp;
+    <button id="reorder_tree">
+        <i class="fas fa-sitemap"></i>
+    </button>
     <br/><br/>
     <div id="jstree"></div>
 
@@ -200,6 +204,19 @@
                     "cat_2_val": g_d2.getText(),
                     "label": $("#label").val(),
                     "href": $("#href").val(),
+                }),
+                contentType: 'application/json',
+                type: 'POST',
+            }).done(function (response) {
+                location.reload(true);
+            });
+        });
+
+        $('#reorder_tree').on('click', function () {
+            $.ajax("/reorder_tree_route/", {
+                data: JSON.stringify({
+                    "table_name": table_name,
+                    "new_tree_json": $("#jstree").jstree(true).get_json('#', { 'flat': true }),
                 }),
                 contentType: 'application/json',
                 type: 'POST',

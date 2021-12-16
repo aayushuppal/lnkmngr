@@ -126,3 +126,14 @@ def add_new_entry(table_name, label, type, parent_id, href):
     )
     db_conn.commit()
     return cursor.lastrowid
+
+
+def update_entry_parent(table_name, id, parent_id):
+    cursor.execute(
+        f"""
+        UPDATE {table_name}
+        SET parent_id = {"null" if parent_id is None else parent_id}
+        WHERE id = {id}
+        """
+    )
+    db_conn.commit()
