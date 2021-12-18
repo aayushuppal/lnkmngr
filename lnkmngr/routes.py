@@ -8,6 +8,7 @@ from utils.db import (
     add_new_entry,
     del_entry,
     drop_table,
+    update_entry,
 )
 from utils.tree import get_links_json_as_map, reorder_tree
 from utils.consts import CATEGORY_TYPE, LINK_TYPE
@@ -139,6 +140,24 @@ def reorder_tree_route():
     table_name = rj["table_name"]
     new_tree_nodes = rj["new_tree_json"]
     reorder_tree(table_name, new_tree_nodes)
+
+    return app.response_class(
+        response=json.dumps({}), status=200, mimetype="application/json"
+    )
+
+
+@app.route("/edit_entry_route/", methods=["POST"])
+def edit_entry_route():
+    rj = request.get_json()
+    table_name = rj["table_name"]
+    id = int(rj["id"])
+
+    label = rj["label"].strip()
+    assert len(label) > 1
+
+    href = rj["href"].strip()
+
+    update_entry(table_name, id, label, href)
 
     return app.response_class(
         response=json.dumps({}), status=200, mimetype="application/json"

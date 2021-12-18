@@ -62,6 +62,13 @@
     <button id="reorder_tree">
         <i class="fas fa-sitemap"></i>
     </button>
+    &nbsp;|&nbsp;
+    <input id="edit_label" type="text" style="width:300px" />&nbsp;
+    <input id="edit_href" type="text" />&nbsp;
+    <button id="edit_btn_id">
+        <i class="fas fa-pen-square"></i>
+    </button>
+
     <br/><br/>
     <div id="jstree"></div>
 
@@ -69,6 +76,7 @@
     <script>
         var table_name = {{table_name|tojson}};
         var links_json={{links_json|tojson}};
+        var g_selected_id = null;
 
         function createJSTree(links_data_json) {
             $('#jstree').jstree({
@@ -125,6 +133,14 @@
 
         $('#jstree').bind("select_node.jstree", function (e, data) {
             var href = data.node.a_attr.href;
+            node = data.node;
+            g_selected_id = node.id;
+            $("#edit_label").val(node.text);
+            if (href != "#") {
+                $("#edit_href").val(href);
+            } else {
+                $("#edit_href").val(null);
+            }
         });
 
         var g_is_tree_expanded = false;
@@ -221,6 +237,21 @@
                 data: JSON.stringify({
                     "table_name": table_name,
                     "new_tree_json": $("#jstree").jstree(true).get_json('#', { 'flat': true }),
+                }),
+                contentType: 'application/json',
+                type: 'POST',
+            }).done(function (response) {
+                location.reload(true);
+            });
+        });
+
+        $('#edit_btn_id').on('click', function () {
+            $.ajax("/edit_entry_route/", {
+                data: JSON.stringify({
+                    "table_name": table_name,
+                    "id": g_selected_id,
+                    "label": $("#edit_label").val(),
+                    "href": $("#edit_href").val(),
                 }),
                 contentType: 'application/json',
                 type: 'POST',

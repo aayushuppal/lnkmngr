@@ -137,3 +137,15 @@ def update_entry_parent(table_name, id, parent_id):
         """
     )
     db_conn.commit()
+
+
+def update_entry(table_name, id, label, href):
+    cursor.execute(
+        f"""
+        UPDATE {table_name} SET
+        label = "{label}",
+        href = "{href}"
+        WHERE id = {id}
+        """
+    )
+    db_conn.commit()
