@@ -60,6 +60,7 @@ def render_list_page_route(table_name):
 @app.route("/add_new_entry_route/", methods=["POST"])
 def add_new_entry_route():
     rj = request.get_json()
+    hrefs = [x.strip() for x in rj["href"].split("\n") if x.strip()]
     table_name = rj["table_name"]
     new_entry_cat_id = None
 
@@ -94,16 +95,27 @@ def add_new_entry_route():
             )
         new_entry_cat_id = cat_2_id
 
-    ent_label = rj["label"].strip()
-    if ent_label != "":
-        ent_href = rj["href"].strip()
-        add_new_entry(
-            table_name=table_name,
-            label=ent_label,
-            type=LINK_TYPE,
-            parent_id=new_entry_cat_id,
-            href=ent_href,
-        )
+    if hrefs:
+        if len(hrefs) == 1:
+            href = hrefs[0]
+            label = rj["label"].strip()
+            label = label if label else href
+            add_new_entry(
+                table_name=table_name,
+                label=label,
+                type=LINK_TYPE,
+                parent_id=new_entry_cat_id,
+                href=href,
+            )
+        else:
+            for href in hrefs:
+                add_new_entry(
+                    table_name=table_name,
+                    label=href,
+                    type=LINK_TYPE,
+                    parent_id=new_entry_cat_id,
+                    href=href,
+                )
 
     return app.response_class(
         response=json.dumps({}), status=200, mimetype="application/json"
