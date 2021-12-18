@@ -22,7 +22,10 @@ genexewau:
 	--add-data "templates;templates" --add-data "static;static" \
 	--runtime-tmpdir ./ app.py; \
 	mv dist/app.exe ../exe/au/lnkmngr.exe; \
-	git checkout utils/consts.py
+	git checkout utils/consts.py; \
+	cp ../exe/au/lnkmngr.exe ~/apps/lnkmngr.exe
+
+genexe: genexewau genexew
 
 genmac:
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
