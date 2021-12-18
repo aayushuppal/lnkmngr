@@ -15,7 +15,7 @@ genexew:
 	mv dist/app.exe ../exe/lnkmngr.exe
 
 genexewau:
-	mv tmp/consts_au.py lnkmngr/utils/consts.py \
+	cp tmp/consts_au.py lnkmngr/utils/consts.py; \
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
 	cd lnkmngr; \
 	../.venv/Scripts/pyinstaller -F \
