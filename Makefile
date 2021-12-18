@@ -9,16 +9,20 @@ runw:
 genexew:
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
 	cd lnkmngr; \
-	../.venv/Scripts/pyinstaller -w -F \
+	../.venv/Scripts/pyinstaller -F \
 	--add-data "templates;templates" --add-data "static;static" \
-	--runtime-tmpdir ./ app.py
+	--runtime-tmpdir ./ app.py; \
+	mv dist/app.exe ../exe/lnkmngr.exe
 
-genexew2:
+genexewau:
+	mv tmp/consts_au.py lnkmngr/utils/consts.py \
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
 	cd lnkmngr; \
 	../.venv/Scripts/pyinstaller -F \
 	--add-data "templates;templates" --add-data "static;static" \
-	--runtime-tmpdir ./ app.py
+	--runtime-tmpdir ./ app.py; \
+	mv dist/app.exe ../exe/au/lnkmngr.exe; \
+	git checkout utils/consts.py
 
 genmac:
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec; \
