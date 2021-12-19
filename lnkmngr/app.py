@@ -1,4 +1,5 @@
 from flask import Flask
+from utils.config import get_port, get_expose_to_lan
 
 
 def init_app():
@@ -18,7 +19,4 @@ def init_app():
 
 
 app = init_app()
-app.run(
-    port=5001,
-    # host="0.0.0.0"
-)
+app.run(port=get_port(), host="0.0.0.0" if get_expose_to_lan() else "")

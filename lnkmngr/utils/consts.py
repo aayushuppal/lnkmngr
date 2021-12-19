@@ -1,16 +1,15 @@
 import os
+from utils.config import get_db_path_override
 
 
 def get_lnkmngr_db_path():
-    # uncomment this to build exe with override path
-    # return "C:\\Users\\auppal\\dev\\pfin2\\pfin-input-data\\sqlite_db\\lnkmngr.db"
-    try:
-        return os.environ["DB_PATH"]
-    except KeyError:
-        from os import path
+    db_path = get_db_path_override()
+    if db_path is None:
+        BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+        db_path = os.path.join(BASE_DIR, "../../lnkmngr.db")
 
-        BASE_DIR = path.abspath(path.dirname(__file__))
-        return path.join(BASE_DIR, "../../lnkmngr.db")
+    print(db_path)
+    return db_path
 
 
 CATEGORY_TYPE = "category"
