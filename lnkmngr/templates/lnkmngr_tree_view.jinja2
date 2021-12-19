@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+
     <title>{{ title }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon" />
 
@@ -47,25 +49,25 @@
             <i id="add_lbt_btn" class="fas fa-plus-square"></i>
         </button>
     </div>
-    <br/><br/>
+    <br/>
 
-    <input id="jstree_search" type="text" placeholder="search" style="width:300px" />
+    <input class="mt-1" id="jstree_search" type="text" placeholder="search" style="width:300px" />
     &nbsp;|&nbsp;
-    <button id="exa">
+    <button class="mt-1" id="exa">
         <i id="exp_close_button" class="far fa-folder"></i>
     </button>
     &nbsp;|&nbsp;
-    <button id="del">
+    <button class="mt-1" id="del">
         <i id="del_btn" class="far fa-trash-alt"></i>
     </button>
     &nbsp;|&nbsp;
-    <button id="reorder_tree">
+    <button class="mt-1" id="reorder_tree">
         <i class="fas fa-sitemap"></i>
     </button>
     &nbsp;|&nbsp;
-    <input id="edit_label" type="text" style="width:300px" />&nbsp;
-    <input id="edit_href" type="text" />&nbsp;
-    <button id="edit_btn_id">
+    <input class="mt-1" id="edit_label" type="text" style="width:300px" />&nbsp;
+    <input class="mt-1" id="edit_href" type="text" />&nbsp;
+    <button class="mt-1" id="edit_btn_id">
         <i class="fas fa-pen-square"></i>
     </button>
 

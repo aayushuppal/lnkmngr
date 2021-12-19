@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     <title>{{ title }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon" />
 
@@ -32,18 +33,18 @@
     <hr/>
 
     <form action="{{ url_for('add_link_table_route') }}" method="POST">
-        <input type="text" name="new_table_name"></input>
+        <input class="mt-1" type="text" name="new_table_name"></input>
         &nbsp;|&nbsp;
-        <button type="submit" name="action">
+        <button class="mt-1" type="submit" name="action">
             <i class="fas fa-plus-square"></i>
         </button>
         &nbsp;|&nbsp;
-        <button id="del_link_table">
+        <button class="mt-1" id="del_link_table">
             <i class="fas fa-trash-alt"></i>
         </button>
         &nbsp;|&nbsp;
-        <input id="edit_new_table_name" type="text" />&nbsp;
-        <button id="edit_btn_id">
+        <input class="mt-1" id="edit_new_table_name" type="text" />&nbsp;
+        <button class="mt-1" id="edit_btn_id">
             <i class="fas fa-pen-square"></i>
         </button>
     </form>
