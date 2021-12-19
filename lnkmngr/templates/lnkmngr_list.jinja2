@@ -41,6 +41,11 @@
         <button id="del_link_table">
             <i class="fas fa-trash-alt"></i>
         </button>
+        &nbsp;|&nbsp;
+        <input id="edit_new_table_name" type="text" />&nbsp;
+        <button id="edit_btn_id">
+            <i class="fas fa-pen-square"></i>
+        </button>
     </form>
     <br/>
 
@@ -80,6 +85,36 @@
             }).done(function (response) {
                 location.reload(true);
             });
+        });
+
+
+        $('#edit_btn_id').on('click', function (e) {
+            e.preventDefault();
+            var tl = $("#link_tables").find("input");
+            tl = Array.from(tl);
+            var edit_table_name = null;
+            var is_multiple_selected = false;
+            tl.forEach(t => {
+                if (t.checked == true) {
+                    if (edit_table_name != null) {
+                        is_multiple_selected = true;
+                    }
+                    edit_table_name = t.value;
+                }
+            });
+
+            if (!is_multiple_selected) {
+                $.ajax("/edit_table_name_route/", {
+                    data: JSON.stringify({
+                        "table_name": edit_table_name,
+                        "new_table_name": $("#edit_new_table_name").val()
+                    }),
+                    contentType: 'application/json',
+                    type: 'POST',
+                }).done(function (response) {
+                    location.reload(true);
+                });
+            }
         });
     </script>
 </body>

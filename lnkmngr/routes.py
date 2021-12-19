@@ -9,6 +9,7 @@ from utils.db import (
     del_entry,
     drop_table,
     update_entry,
+    rename_table,
 )
 from utils.tree import get_links_json_as_map, reorder_tree
 from utils.consts import CATEGORY_TYPE, LINK_TYPE
@@ -37,6 +38,19 @@ def drop_link_table_route():
     table_names = rj["table_names"]
     for table_name in table_names:
         drop_table(table_name)
+
+    return app.response_class(
+        response=json.dumps({}), status=200, mimetype="application/json"
+    )
+
+
+@app.route("/edit_table_name_route/", methods=["POST"])
+def edit_table_name_route():
+    rj = request.get_json()
+    table_name = rj["table_name"].strip()
+    new_table_name = rj["new_table_name"].strip()
+    if new_table_name:
+        rename_table(table_name, new_table_name)
 
     return app.response_class(
         response=json.dumps({}), status=200, mimetype="application/json"

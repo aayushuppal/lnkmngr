@@ -11,9 +11,13 @@ db_conn = sqlite3.connect(get_lnkmngr_db_path(), check_same_thread=False)
 cursor = db_conn.cursor()
 
 
+def is_valid_table_name(tn):
+    assert len(tn.split(" ")) == 1
+
+
 def add_new_table(table_name):
     table_name = table_name.strip()
-    assert len(table_name.split(" ")) == 1
+    is_valid_table_name(table_name)
     cursor.execute(
         f"""
         CREATE TABLE IF NOT EXISTS {table_name} (
@@ -29,10 +33,37 @@ def add_new_table(table_name):
 
 def drop_table(table_name):
     table_name = table_name.strip()
-    assert len(table_name.split(" ")) == 1
+    is_valid_table_name(table_name)
     cursor.execute(
         f"""
         DROP TABLE IF EXISTS {table_name}
+        """
+    )
+
+
+def rename_table(tn, ntn):
+    tn = tn.strip()
+    ntn = ntn.strip()
+    is_valid_table_name(tn)
+    is_valid_table_name(ntn)
+    cursor.executescript(
+        f"""
+        PRAGMA foreign_keys = 0;
+
+        CREATE TABLE {ntn} (
+            id        INTEGER PRIMARY KEY,
+            parent_id INTEGER,
+            type      STRING  NOT NULL,
+            label     STRING  NOT NULL,
+            href      STRING
+        );
+
+        INSERT INTO {ntn} (id, parent_id, type, label,href)
+        SELECT id, parent_id, type, label, href FROM {tn};
+
+        DROP TABLE {tn};
+
+        PRAGMA foreign_keys = 1;
         """
     )
 
