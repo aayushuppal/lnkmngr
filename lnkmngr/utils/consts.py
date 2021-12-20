@@ -8,7 +8,6 @@ def get_lnkmngr_db_path():
         BASE_DIR = os.path.abspath(os.path.dirname(__file__))
         db_path = os.path.join(BASE_DIR, "../../lnkmngr.db")
 
-    print(db_path)
     return db_path
 
 
