@@ -23,6 +23,9 @@ genmac:
 
 clean:
 	rm -rf lnkmngr/build lnkmngr/dist lnkmngr/app.spec
+	 find lnkmngr -name "*.pyc" -exec rm -rf {} \;
+	 find lnkmngr -name "__pycache__" -exec rm -rf {} \;
+	 rm -rf  .pytest_cache
 
 setup:
 	rm -rf .venv
