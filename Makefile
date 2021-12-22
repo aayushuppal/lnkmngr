@@ -26,5 +26,10 @@ clean:
 
 setup:
 	rm -rf .venv
-	python3.7 -m venv .venv
+	python -m venv .venv
 	.venv/bin/pip install -r requirements.txt
+
+setupw:
+	rm -rf .venv
+	python -m venv .venv
+	.venv/Scripts/pip install -r requirements.txt

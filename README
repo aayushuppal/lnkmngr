@@ -2,4 +2,6 @@
 Tree based Link Manager
 
 ## requirements
-- python3.7
+- python, tested on 3.7.11, 3.10.1
+recommended >= 3.7
+

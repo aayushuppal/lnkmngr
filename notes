@@ -1,1 +1,4 @@
 https://www.cdnpkg.com/font-awesome/5.8.1
+
+remove version number from requirements.txt
+sed s/=.*//
