@@ -70,7 +70,7 @@ def rename_table(tn, ntn):
 
 
 def get_all_link_tables():
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name ASC")
     return [(x[0], under_str_frmt(x[0])) for x in cursor.fetchall()]
 
 
