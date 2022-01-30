@@ -10,6 +10,7 @@ from utils.db import (
     drop_table,
     update_entry,
     rename_table,
+    merge_tables,
 )
 from utils.tree import get_links_json_as_map, reorder_tree
 from utils.consts import CATEGORY_TYPE, LINK_TYPE
@@ -51,6 +52,21 @@ def edit_table_name_route():
     new_table_name = rj["new_table_name"].strip()
     if new_table_name:
         rename_table(table_name, new_table_name)
+
+    return app.response_class(
+        response=json.dumps({}), status=200, mimetype="application/json"
+    )
+
+
+@app.route("/merge_table_route/", methods=["POST"])
+def merge_table_route():
+    rj = request.get_json()
+    t1 = rj["t1"].strip()
+    t2 = rj["t2"].strip()
+    ntn = rj["ntn"].strip()
+
+    if t1 and t2 and ntn:
+        merge_tables(t1, t2, ntn)
 
     return app.response_class(
         response=json.dumps({}), status=200, mimetype="application/json"

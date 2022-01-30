@@ -29,6 +29,7 @@ def add_new_table(table_name):
         )
         """
     )
+    add_new_entry(table_name, table_name, "category", None, None)
 
 
 def drop_table(table_name):
@@ -179,4 +180,48 @@ def update_entry(table_name, id, label, href):
         WHERE id = {id}
         """
     )
+    db_conn.commit()
+
+
+def merge_tables(t1, t2, ntn):
+    cursor.execute(f"SELECT MAX(id) FROM {t1}")
+    t1_max_id = cursor.fetchone()[0]
+
+    cursor.execute(f"SELECT MAX(id) FROM {t2}")
+    t2_max_id = cursor.fetchone()[0]
+
+    for i in range(t1_max_id, 0, -1):
+        cursor.execute(f"UPDATE {t1} SET id = (id + {t2_max_id}) WHERE id = {i}")
+    cursor.execute(
+        f"UPDATE {t1} SET parent_id = (parent_id + {t2_max_id}) WHERE parent_id IS NOT NULL"
+    )
+    db_conn.commit()
+
+    rename_table(t1, ntn)
+
+    copy_rows_to_table(t2, ntn)
+    drop_table(t2)
+
+    new_root_id = add_new_entry(ntn, ntn, "category", None, None)
+    cursor.execute(
+        f"""
+        UPDATE {ntn}
+        SET parent_id = {new_root_id}
+        WHERE parent_id IS NULL AND id != {new_root_id}
+        """
+    )
+    db_conn.commit()
+
+
+def copy_rows_to_table(t1, t2):
+    cursor.execute(f"SELECT id, parent_id, type, label, href FROM {t1}")
+    t1_rows = cursor.fetchall()
+    for r in t1_rows:
+        cursor.execute(
+            f"""
+            INSERT INTO {t2} (id, parent_id, type, label, href)
+            VALUES(?, ?, ?, ?, ?)
+            """,
+            (r[0], r[1], r[2], r[3], r[4]),
+        )
     db_conn.commit()

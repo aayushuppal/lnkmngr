@@ -43,6 +43,13 @@
         <button class="mt-1" id="edit_btn_id">
             <i class="fas fa-pen-square"></i>
         </button>
+        &nbsp;|&nbsp;
+        <input class="mt-1" id="merger_t1_name" type="text" />&nbsp;
+        <input class="mt-1" id="merger_t2_name" type="text" />&nbsp;
+        <input class="mt-1" id="merger_new_table_name" type="text" />&nbsp;
+        <button class="mt-1" id="merge_table_btn_id">
+            <i class="fas fa-sitemap"></i>
+        </button>
     </form>
     <br/>
 
@@ -112,6 +119,23 @@
                     location.reload(true);
                 });
             }
+        });
+
+
+        $('#merge_table_btn_id').on('click', function (e) {
+            e.preventDefault();
+
+            $.ajax("/merge_table_route/", {
+                data: JSON.stringify({
+                    "t1": $("#merger_t1_name").val(),
+                    "t2": $("#merger_t2_name").val(),
+                    "ntn": $("#merger_new_table_name").val()
+                }),
+                contentType: 'application/json',
+                type: 'POST',
+            }).done(function (response) {
+                location.reload(true);
+            });
         });
     </script>
 </body>
